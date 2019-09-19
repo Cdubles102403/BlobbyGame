@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Shape;
 
 /**
  *
@@ -75,5 +74,12 @@ public class Player {
     void stop() {
        vx = 0;
        vy = 0;
+    }
+    
+    public int GetY(){
+        return this.y;
+    }
+    public int GetX(){
+        return this.x;
     }
 }
