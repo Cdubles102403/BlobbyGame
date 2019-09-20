@@ -20,11 +20,15 @@ public class World extends JPanel {
     
     private Timer timer;
     private Player player;
+    private Enemy enemy;
+    private Enemy enemy2;
     public World() {
         super();
         player = new Player(800,600);
+        enemy = new Enemy(800,600);
+        enemy2 = new Enemy(800,600);
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/12);
+        timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/40);
     }
 
     @Override
@@ -33,27 +37,13 @@ public class World extends JPanel {
 //        
         super.paintComponent(g);
         this.setBackground(Color.cyan);
-        player.draw(g);
+        if(player.isAlive()) {player.draw(g);}
+        if(enemy.isAlive()) enemy.draw(g);
         
-        
-        
-//        g.setColor(Color.red);
-//        
-//        while(counter<32){
-//            int ran1 = (int) (Math.random()*20);
-//            int ran2 = (int) (Math.random()*20);
-//            if(counter>15){
-//                g.setColor(Color.red);
-//            }
-//            else{
-//                g.setColor(Color.GREEN);
-//            }
-//            g.fillRect(28 * ran1, 28 * ran2, 8 *ran2, 8 *ran1);
-//            System.out.println(ran1);
-//            counter++;
-//        }
-       
-       
+        if(enemy2.isAlive()){
+            enemy2.setColor(Color.MAGENTA);
+            enemy2.draw(g);
+        }
     }
 
     private class ScheduleTask extends TimerTask {
@@ -61,22 +51,52 @@ public class World extends JPanel {
         @Override
         public void run() {
             player.update();
+            checkCollisions();
+            //enemy.move();
+            enemy.update();
+            enemy2.update();
             repaint();
         }
-    }
 
+       
+    }
+         private void checkCollisions() {
+            if(player.getBounds().intersects(enemy.getBounds()) && player.isAlive()){
+                if(player.getVy()> 0){
+                    System.out.println("kill enemy");
+                    enemy.die();
+            }
+                else{
+                   System.out.println("player dead");
+                   player.die();
+                    
+                }
+                
+            }
+            else{
+                
+            }
+       }
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-          player.move("right");
+            enemy.move();
+            enemy2.move();
+            player.move("right");
          
         }
         else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-           player.move("left");
+            enemy.move();
+            enemy2.move();
+            player.move("left");
         }
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
-           player.move("up"); 
+            enemy.move();
+            enemy2.move();
+            player.move("up"); 
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            enemy.move();
+            enemy2.move();
             player.move("down");
         }
     }
@@ -84,18 +104,28 @@ public class World extends JPanel {
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             player.stop();
+            enemy.stop();
+            enemy2.stop();
         }
             
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             player.stop();
+            enemy.stop();
+            enemy2.stop();
+
+
         }
             
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             player.stop();
+            enemy.stop();
+            enemy2.stop();
         }
             
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             player.stop();
+            enemy.stop();
+            enemy2.stop();
         }
             
     }

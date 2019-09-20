@@ -19,8 +19,10 @@ public class Player {
    private Rectangle bounds;
    private Color color;
    private final int speed = 5;
+   private boolean alive;
    
    public Player(int cWidth, int cHeight){
+       this.alive = true;
        this.x = cWidth/2;
        this.y = cHeight /2;
        this.width = 50;
@@ -31,6 +33,7 @@ public class Player {
        this.vy = 0;
        this.color = Color.YELLOW;
        this.bounds = new Rectangle(this.x, this.y, this.width, this.height);
+       
        
    }
    
@@ -82,4 +85,20 @@ public class Player {
     public int GetX(){
         return this.x;
     }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
+
+    public int getVy() {
+        return vy;
+    } 
+    public void die(){
+        this.alive = false;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+    
 }
