@@ -15,7 +15,7 @@ import java.awt.Rectangle;
  * @author CSchafer
  */
 public class Player {
-   private int height, width, x, y, hp,score, xp, vx, vy;
+   private int height, width, x, y, hp,score, xp, vx, vy, strength;
    private Rectangle bounds;
    private Color color;
    private final int speed = 5;
@@ -32,9 +32,7 @@ public class Player {
        this.vx = 0;
        this.vy = 0;
        this.color = Color.YELLOW;
-       this.bounds = new Rectangle(this.x, this.y, this.width, this.height);
-       
-       
+       this.bounds = new Rectangle(this.x, this.y, this.width, this.height); 
    }
    
    public void move(String direction){
@@ -57,12 +55,7 @@ public class Player {
    public void draw(Graphics g){
        g.setColor(this.color);
        Graphics2D g2d = (Graphics2D) g;
-       g2d.fill(bounds);
-       
-   }
-   
-   public void attack(){
-       
+       g2d.fill(bounds);  
    }
    
    public void collect(){
@@ -100,5 +93,13 @@ public class Player {
     public boolean isAlive() {
         return alive;
     }
-    
+    public void increasePoints(){
+        this.score +=5;
+    }
+    public int getScore(){
+        return this.score;
+    }
+    public void eat(){
+        this.hp +=10;
+    }
 }

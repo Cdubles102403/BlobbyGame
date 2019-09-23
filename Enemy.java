@@ -19,7 +19,7 @@ package blobbygame;
  */
 
 public class Enemy {
- private int x,y,health,vx,vy, height, width, gameHeight, gameWidth;
+ private int x,y,health,vx,vy, height, width, cHeight, cWidth, strength;
  private Color color;
  private final int speed = 5;
  private Rectangle bounds;
@@ -34,8 +34,8 @@ public class Enemy {
         this.height = 40;
         this.color = Color.RED;
         this.bounds = new Rectangle(this.x, this.y, this.width, this.height);
-        this.gameHeight = cHeight;
-        this.gameWidth = cWidth;
+        this.cHeight = cHeight;
+        this.cWidth = cWidth;
         
         
     }
@@ -43,22 +43,26 @@ public class Enemy {
          int ran = (int)(Math.random()*4)+1;
         //left
       if(ran == 1 && x>=0){
-        this.vx -= speed;
+        this.vx = -speed;
       }
-      if(ran == 2 && x<= gameWidth){
-       //right
-        this.vx += speed;
+      //right
+     else if(ran == 2 && x<=cWidth){
+        this.vx = speed;
       }
       //up
-      if(ran == 3 && y>=0){
-        this.vy += speed;
+     else if(ran == 3 && y>=0){
+        this.vy = speed;
       }
       //down
-      if(ran == 4 && y<= gameHeight){
-        this.vy -= speed;
-          
+     else if(ran == 4 && y<=cHeight ){
+        this.vy = -speed;
       }
+     
+     else{
+         this.vy = 0;
+         this.vx = 0;
      }
+   }
      
      public void draw(Graphics g){
        g.setColor(this.color);
@@ -92,5 +96,5 @@ public class Enemy {
     public void setColor(Color color) {
         this.color = color;
     }
-    
+
 }

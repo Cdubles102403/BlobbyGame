@@ -22,19 +22,19 @@ public class World extends JPanel {
     private Player player;
     private Enemy enemy;
     private Enemy enemy2;
+    private Food food;
     public World() {
         super();
         player = new Player(800,600);
         enemy = new Enemy(800,600);
         enemy2 = new Enemy(800,600);
+        food = new Food(800,600);
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/40);
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-//        int counter = 0;
-//        
+    public void paintComponent(Graphics g) {   
         super.paintComponent(g);
         this.setBackground(Color.cyan);
         if(player.isAlive()) {player.draw(g);}
@@ -44,6 +44,9 @@ public class World extends JPanel {
             enemy2.setColor(Color.MAGENTA);
             enemy2.draw(g);
         }
+        if(!Food.isEaten()){
+            food.draw(g);
+        }
     }
 
     private class ScheduleTask extends TimerTask {
@@ -51,32 +54,54 @@ public class World extends JPanel {
         @Override
         public void run() {
             player.update();
-            checkCollisions();
             //enemy.move();
             enemy.update();
             enemy2.update();
+            food.update();
+            checkCollisions();
             repaint();
         }
 
        
     }
          private void checkCollisions() {
-            if(player.getBounds().intersects(enemy.getBounds()) && player.isAlive()){
+            if(player.getBounds().intersects(enemy.getBounds()) && enemy.isAlive()){
                 if(player.getVy()> 0){
                     System.out.println("kill enemy");
+                    player.increasePoints();
                     enemy.die();
+                    System.out.println(player.getScore());
             }
                 else{
                    System.out.println("player dead");
                    player.die();
                     
                 }
-                
             }
-            else{
-                
+            
+            if(player.getBounds().intersects(enemy2.getBounds()) && enemy2.isAlive()){
+                if(player.getVy()> 0){
+                    System.out.println("kill enemy2");
+                    player.increasePoints();
+                    enemy2.die();
+                    System.out.println(player.getScore());
             }
-       }
+                else{
+                   System.out.println("player dead by enemy 2");
+                   player.die();
+              }
+                
+          }  
+       }    
+         
+      public void foodColision(){
+          if(player.getBounds().intersects(food.getBounds())){
+             player.eat();
+            
+             food.eaten();
+          }
+      }
+         
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             enemy.move();
