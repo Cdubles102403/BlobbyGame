@@ -22,15 +22,13 @@ public class World extends JPanel {
     private Player player;
     private Enemy enemy;
     private Enemy enemy2;
-    private Enemy enemy3;
     private Food food;
     private Food food2;
     public World() {
         super();
         player = new Player(800,600);
         enemy = new Enemy(800,600);
-        enemy2 = new Enemy(800,600);
-        enemy3 = new Enemy(800,600);
+        enemy2 = new Enemy(800,600); 
         food = new Food(800,600);
         food2 = new Food(800,600);
         timer = new Timer();
@@ -43,10 +41,7 @@ public class World extends JPanel {
         this.setBackground(Color.black);
         if(player.isAlive()) player.draw(g);
         if(enemy.isAlive()) enemy.draw(g);
-        if(enemy3.isAlive()){
-            enemy3.setColor(Color.WHITE);
-            enemy.draw(g);
-        }
+       
         if(enemy2.isAlive()){
             enemy2.setColor(Color.MAGENTA);
             enemy2.draw(g);
@@ -67,7 +62,6 @@ public class World extends JPanel {
             //enemy.move();
             enemy.update();
             enemy2.update();
-            enemy3.update();
             food.update();
             food2.update();
             foodCollision();
@@ -105,18 +99,7 @@ public class World extends JPanel {
             }
         }
             
-        if(player.getBounds().intersects(enemy3.getBounds()) && enemy3.isAlive()){
-                if(player.getVy()> 0){
-                    System.out.println("kill enemy3");
-                    player.increasePoints();
-                    enemy3.die();
-                    System.out.println(player.getScore());
-            }
-                else{
-                   System.out.println("player dead by enemy 3");
-                   player.die();
-            }
-        }
+       
     }    
          
       public void foodCollision(){
@@ -136,26 +119,26 @@ public class World extends JPanel {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             enemy.move();
             enemy2.move();
-            enemy3.move();
+         
             player.move("right");
          
         }
         else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             enemy.move();
             enemy2.move();
-            enemy3.move();
+           
             player.move("left");
         }
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
             enemy.move();
             enemy2.move();
-            enemy3.move();
+          
             player.move("up"); 
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             enemy.move();
             enemy2.move();
-            enemy3.move();
+      
             player.move("down");
         }
     }
@@ -165,14 +148,14 @@ public class World extends JPanel {
             player.stop();
             enemy.stop();
             enemy2.stop();
-            enemy3.stop();
+           
         }
             
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             player.stop();
             enemy.stop();
             enemy2.stop();
-            enemy3.stop();
+          
 
         }
             
@@ -180,14 +163,14 @@ public class World extends JPanel {
             player.stop();
             enemy.stop();
             enemy2.stop();
-            enemy3.stop();
+            
         }
             
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             player.stop();
             enemy.stop();
             enemy2.stop();
-            enemy3.stop();
+           
         }    
     }
 }
