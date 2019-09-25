@@ -28,8 +28,8 @@ public class Enemy {
  
      public Enemy(int cWidth, int cHeight){
          this.alive = true;
-        this.x = cWidth/2+ 60;
-        this.y = cHeight/2 + 40;
+        this.x = (int)( Math.random()*cWidth)+1;
+        this.y = (int)( Math.random()*cHeight)+1;
         this.width = 40;
         this.height = 40;
         this.color = Color.RED;

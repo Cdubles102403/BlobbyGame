@@ -33,30 +33,30 @@ public class Player {
        this.vy = 0;
        this.color = Color.YELLOW;
        this.bounds = new Rectangle(this.x, this.y, this.width, this.height); 
-   }
+    }
    
    public void move(String direction){
        if(direction.equals("right")){
-           this.vx += speed;
-       }
+           this.vx = speed;
+        }
       else if(direction.equals("left")){
-           this.vx -= speed;
-       }
+           this.vx = -speed;
+        }
       else if(direction.equals("up")){
-           this.vy -= speed;
-       }
+           this.vy = -speed;
+        }
       else if(direction.equals("down")){
-           this.vy += speed;
-       }
+           this.vy = speed;
+        }
        
        
-   }
+    }
    
    public void draw(Graphics g){
        g.setColor(this.color);
        Graphics2D g2d = (Graphics2D) g;
        g2d.fill(bounds);  
-   }
+    }
    
    public void collect(){
        
@@ -65,7 +65,7 @@ public class Player {
        this.x +=vx;
        this.y +=vy;
        this.bounds = new Rectangle(this.x, this.y, this.width, this.height);
-   }
+    }
 
     void stop() {
        vx = 0;
@@ -101,5 +101,7 @@ public class Player {
     }
     public void eat(){
         this.hp +=10;
+        this.width +=5;
+        this.height +=5;
     }
 }

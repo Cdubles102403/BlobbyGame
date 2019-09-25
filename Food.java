@@ -26,11 +26,12 @@ public Food(int cWidth, int cHeight){
     this.eaten = false;
     this.x = (int)( Math.random()*cWidth)+1;
     this.y = (int)( Math.random()*cHeight)+1;
-    this.color = Color.PINK;
+    this.color = Color.orange;
     this.width = 10;
     this.height = 10;
     this.bounds = new Rectangle(this.x, this.y, this.width, this.height);
     }
+
 public void eaten(){
     this.eaten = true;
     }
@@ -43,11 +44,17 @@ public void draw(Graphics g){
        g.setColor(this.color);
        Graphics2D g2d = (Graphics2D) g;
        g2d.fill(bounds);  
-   }
+    }
+
 public void update(){
-       this.bounds = new Rectangle(this.x, this.y, this.width, this.height);
-   }
+        this.bounds = new Rectangle(this.x, this.y, this.width, this.height);
+    }
+
 public Rectangle getBounds() {
         return bounds;
+    }
+
+public void setColor(Color color) {
+        this.color = color;
     }
 }

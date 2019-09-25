@@ -22,30 +22,40 @@ public class World extends JPanel {
     private Player player;
     private Enemy enemy;
     private Enemy enemy2;
+    private Enemy enemy3;
     private Food food;
+    private Food food2;
     public World() {
         super();
         player = new Player(800,600);
         enemy = new Enemy(800,600);
         enemy2 = new Enemy(800,600);
+        enemy3 = new Enemy(800,600);
         food = new Food(800,600);
+        food2 = new Food(800,600);
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/40);
+        timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/120);
     }
 
     @Override
     public void paintComponent(Graphics g) {   
         super.paintComponent(g);
-        this.setBackground(Color.cyan);
-        if(player.isAlive()) {player.draw(g);}
+        this.setBackground(Color.black);
+        if(player.isAlive()) player.draw(g);
         if(enemy.isAlive()) enemy.draw(g);
-        
+        if(enemy3.isAlive()){
+            enemy3.setColor(Color.WHITE);
+            enemy.draw(g);
+        }
         if(enemy2.isAlive()){
             enemy2.setColor(Color.MAGENTA);
             enemy2.draw(g);
         }
-        if(!Food.isEaten()){
+        if(!food.isEaten()){
             food.draw(g);
+        }
+        if(!food2.isEaten()){
+            food2.draw(g);
         }
     }
 
@@ -57,7 +67,10 @@ public class World extends JPanel {
             //enemy.move();
             enemy.update();
             enemy2.update();
+            enemy3.update();
             food.update();
+            food2.update();
+            foodCollision();
             checkCollisions();
             repaint();
         }
@@ -89,39 +102,60 @@ public class World extends JPanel {
                 else{
                    System.out.println("player dead by enemy 2");
                    player.die();
-              }
-                
-          }  
-       }    
-         
-      public void foodColision(){
-          if(player.getBounds().intersects(food.getBounds())){
-             player.eat();
+            }
+        }
             
+        if(player.getBounds().intersects(enemy3.getBounds()) && enemy3.isAlive()){
+                if(player.getVy()> 0){
+                    System.out.println("kill enemy3");
+                    player.increasePoints();
+                    enemy3.die();
+                    System.out.println(player.getScore());
+            }
+                else{
+                   System.out.println("player dead by enemy 3");
+                   player.die();
+            }
+        }
+    }    
+         
+      public void foodCollision(){
+          if(player.getBounds().intersects(food.getBounds()) && !food.isEaten()){
+             player.eat();
              food.eaten();
-          }
-      }
+             System.out.println("food was eaten");
+            }
+          if(player.getBounds().intersects(food2.getBounds()) && !food2.isEaten()){
+             player.eat();
+             food2.eaten();
+             System.out.println("food2 was eaten");
+            }
+        }
          
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             enemy.move();
             enemy2.move();
+            enemy3.move();
             player.move("right");
          
         }
         else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             enemy.move();
             enemy2.move();
+            enemy3.move();
             player.move("left");
         }
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
             enemy.move();
             enemy2.move();
+            enemy3.move();
             player.move("up"); 
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             enemy.move();
             enemy2.move();
+            enemy3.move();
             player.move("down");
         }
     }
@@ -131,13 +165,14 @@ public class World extends JPanel {
             player.stop();
             enemy.stop();
             enemy2.stop();
+            enemy3.stop();
         }
             
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             player.stop();
             enemy.stop();
             enemy2.stop();
-
+            enemy3.stop();
 
         }
             
@@ -145,13 +180,14 @@ public class World extends JPanel {
             player.stop();
             enemy.stop();
             enemy2.stop();
+            enemy3.stop();
         }
             
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             player.stop();
             enemy.stop();
             enemy2.stop();
-        }
-            
+            enemy3.stop();
+        }    
     }
 }
